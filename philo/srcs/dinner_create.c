@@ -19,8 +19,9 @@ void	dinner_create(t_philo **philos, t_data data)
 
 static t_philo	*create_philo(int idx, t_data data)
 {
-	t_philo		*philo;
-	pthread_t	tid;
+	t_philo			*philo;
+	pthread_t		tid;
+	pthread_mutex_t mute;
 
 	philo = malloc(sizeof(t_philo));
 	if (!philo)
@@ -29,6 +30,7 @@ static t_philo	*create_philo(int idx, t_data data)
 	philo->tid = tid;
 	philo->data = data;
 	philo->next = philo;
+	pthread_mutex_init(&philo->mute, NULL);
 	return (philo);
 }
 

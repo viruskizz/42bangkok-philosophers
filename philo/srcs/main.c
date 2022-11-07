@@ -20,17 +20,25 @@ int	setup(int argc, char *argv[], t_data *data)
 	data->ttd = ft_atoi(argv[2]);
 	data->tte = ft_atoi(argv[3]);
 	data->tts = ft_atoi(argv[4]);
-	data->m = 0;
 	data->t = gettimestamp(USEC);
-	if (argc > 5)
+	if (argc > 5 && ft_atoi(argv[5]))
+	{
 		data->m = ft_atoi(argv[5]);
-	// printf("%sPhisophers programe%s\n", YELLOW, RESET);
-	// printf("• number_of_philosophers: %d ea\n", data->n);
-	// printf("• time_to_die: %d ms\n", data->ttd);
-	// printf("• time_to_eat: %d ms\n", data->tte);
-	// printf("• time_to_sleep: %d ms\n", data->tts);
-	// printf("• number_of_times_each_philosopher_must_eat: %d times\n", data->m);
-	// printf("%s=====================%s\n", YELLOW, RESET);
+		data->unlimit = 0;
+	}
+	else
+	{
+		data->m = 0;
+		data->unlimit = 1;
+	}
+	printf("%sPhisophers programe%s\n", YELLOW, RESET);
+	printf("• number_of_philosophers: %d ea\n", data->n);
+	printf("• time_to_die: %d ms\n", data->ttd);
+	printf("• time_to_eat: %d ms\n", data->tte);
+	printf("• time_to_sleep: %d ms\n", data->tts);
+	printf("• number_of_times_each_philosopher_must_eat: %d times\n", data->m);
+	printf("• unlimit: %d\n", data->unlimit);
+	printf("%s=====================%s\n", YELLOW, RESET);
 	if (data->n < 1 || data->m < 0 || data->ttd < 1 || data->tte < 1 || data->tts < 1)
 		return (printf("%sError:invalid argument%s\n", LRED, RESET));
 	return (0);

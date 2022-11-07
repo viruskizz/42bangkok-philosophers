@@ -41,6 +41,7 @@ typedef struct s_data
 	int			tte;
 	int			tts;
 	int			m;
+	int			unlimit;
 	unsigned long int	t;
 }	t_data;
 
@@ -51,6 +52,8 @@ typedef struct s_philo
 	int				idx;
 	int				time;
 	int				status;
+	pthread_mutex_t	mute;
+	pthread_mutex_t	*nmute;
 	struct s_philo	*next;
 }	t_philo;
 
