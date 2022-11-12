@@ -67,5 +67,4 @@ static void	setup_dinner(t_dinner *dinner, t_data data, t_philo *philos)
 	dinner->data = data;
 	dinner->time = gettimestamp(USEC);
 	dinner->philos = philos;
-	pthread_mutex_init(&dinner->mute, NULL);
 }

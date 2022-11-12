@@ -1,5 +1,5 @@
 NAME = philo
-CC = gcc
+CC = gcc -g
 CFLAGS = -Wextra -Wall -Werror
 
 LIBS = -lpthread
