@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araiva <tsomsa@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/12 22:42:41 by araiva            #+#    #+#             */
+/*   Updated: 2022/11/12 22:42:42 by araiva           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
 
 static void	to_eat(t_philo *philo);
@@ -5,7 +16,7 @@ static void	to_sleep(t_philo *philo);
 static void	to_think(t_philo *philo);
 static int	is_live(t_philo *philo);
 
-void *routine(void *arguments)
+void	*routine(void *arguments)
 {
 	t_philo	*philo;
 	t_data	data;
@@ -30,9 +41,9 @@ void *routine(void *arguments)
 static void	to_eat(t_philo *philo)
 {
 	if (philo->status != S_THINK)
-		return (0);
+		return ;
 	if (!is_live(philo))
-		return (1);
+		return ;
 	pthread_mutex_lock(&philo->next->mute);
 	philo->status = S_FORK;
 	ph_print(philo);
@@ -43,10 +54,10 @@ static void	to_eat(t_philo *philo)
 	pthread_mutex_unlock(&philo->next->mute);
 }
 
-static void to_sleep(t_philo *philo)
+static void	to_sleep(t_philo *philo)
 {
 	if (philo->status != S_EATING)
-		return (0);
+		return ;
 	philo->status = S_SLEEPING;
 	philo->time = getgametime(philo->data, USEC);
 	ph_print(philo);
@@ -56,7 +67,7 @@ static void to_sleep(t_philo *philo)
 static void	to_think(t_philo *philo)
 {
 	if (philo->status != S_SLEEPING)
-		return (0);
+		return ;
 	philo->status = S_THINK;
 	ph_print(philo);
 	if (philo->next == philo)
@@ -66,9 +77,11 @@ static void	to_think(t_philo *philo)
 static int	is_live(t_philo *philo)
 {
 	unsigned long int	ttl;
+	unsigned long int	ttd;
 
 	ttl = getgametime(philo->data, USEC) - philo->time;
-	if (ttl + philo->data.tte * 1000 > philo->data.ttd * 1000)
+	ttd = philo->data.ttd * 1000;
+	if (ttl + philo->data.tte * 1000 > ttd)
 	{
 		philo->status = S_DIED;
 		return (0);

@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araiva <tsomsa@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/12 22:56:14 by araiva            #+#    #+#             */
+/*   Updated: 2022/11/12 22:56:15 by araiva           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
 
 unsigned long int	gettimestamp(int unit)
 {
-	struct timeval now;
-	int	rc;
-	long int	timestamp;
+	struct timeval	now;
+	long int		timestamp;
+	int				rc;
 
 	rc = gettimeofday(&now, NULL);
 	if (rc < 0)
@@ -18,7 +29,7 @@ unsigned long int	gettimestamp(int unit)
 
 unsigned long int	getgametime(t_data data, int unit)
 {
-	unsigned long int curtime;
+	unsigned long int	curtime;
 
 	curtime = gettimestamp(USEC) - data.t;
 	if (unit == USEC)

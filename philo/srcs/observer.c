@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   observer.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araiva <tsomsa@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/12 22:42:52 by araiva            #+#    #+#             */
+/*   Updated: 2022/11/12 22:42:54 by araiva           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
 
-int	is_died(t_dinner dinner);
-int	is_full(t_dinner dinner);
+static int	is_died(t_dinner dinner);
+static int	is_full(t_dinner dinner);
 
-void *observer(void *arguments)
+void	*observer(void *arguments)
 {
 	t_dinner	dinner;
 
@@ -12,16 +23,16 @@ void *observer(void *arguments)
 	{
 		if (is_died(dinner))
 			return (NULL);
-		else if (is_full(dinner))
+		if (is_full(dinner))
 			return (NULL);
 	}
 	return (NULL);
 }
 
-int	is_died(t_dinner dinner)
+static int	is_died(t_dinner dinner)
 {
-	int	i;
 	t_philo	*philo;
+	int		i;
 
 	i = 1;
 	philo = dinner.philos;
@@ -38,15 +49,14 @@ int	is_died(t_dinner dinner)
 	return (0);
 }
 
-
-int	is_full(t_dinner dinner)
+static int	is_full(t_dinner dinner)
 {
-	int	i;
 	t_philo	*philo;
+	int		i;
 
 	i = 1;
 	philo = dinner.philos;
-	if (dinner.data.unlimit)
+	if (dinner.data.m == 0)
 		return (0);
 	while (i <= dinner.data.n)
 	{

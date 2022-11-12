@@ -9,7 +9,6 @@
 /*   Updated: 2022/10/06 18:31:35 by araiva           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 static int	ft_isdigit(char c);
 
 int	ft_atoi(const char *nb)

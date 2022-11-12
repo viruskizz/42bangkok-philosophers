@@ -1,11 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ph_print.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araiva <tsomsa@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/12 22:58:23 by araiva            #+#    #+#             */
+/*   Updated: 2022/11/12 22:58:24 by araiva           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "philo.h"
-
-static char	*get_stat_title(int	stat);
 
 void	ph_print(t_philo *philo)
 {
 	unsigned long int	time;
-	int	stat;
+	int					stat;
 
 	time = getgametime(philo->data, MSEC);
 	stat = philo->status;
@@ -21,20 +30,4 @@ void	ph_print(t_philo *philo)
 		printf("%ld %d died\n", time, philo->idx);
 	else
 		printf("%ld %d ??\n", time, philo->idx);
-}
-
-static char	*get_stat_title(int	stat)
-{
-	if (stat == S_FORK)
-		return ("has taken a fork");
-	if (stat == S_EATING)
-		return ("is eating");
-	else if (stat == S_SLEEPING)
-		return ("is sleeping");
-	else if (stat == S_THINK)
-		return ("is thinking");
-	else if (stat == S_DIED)
-		return ("died");
-	else
-		return ("??");
 }

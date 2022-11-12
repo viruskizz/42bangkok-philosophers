@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araiva <tsomsa@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/12 23:05:48 by araiva            #+#    #+#             */
+/*   Updated: 2022/11/12 23:05:49 by araiva           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <assert.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <sys/time.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <assert.h>
+# include <pthread.h>
+# include <unistd.h>
+# include <sys/time.h>
 
 # define RED		"\033[0;31m"
 # define GREEN		"\033[0;32m"
@@ -38,13 +50,13 @@
  */
 typedef struct s_data
 {
-	int			n;
-	int			ttd;
-	int			tte;
-	int			tts;
-	int			m;
-	int			unlimit;
-	int			is_end;
+	int					n;
+	int					ttd;
+	int					tte;
+	int					tts;
+	int					m;
+	int					unlimit;
+	int					is_end;
 	unsigned long int	t;
 }	t_data;
 
@@ -69,27 +81,19 @@ typedef struct s_dinner
 	t_philo				*philos;
 }	t_dinner;
 
+/* Main */
+void	*routine(void *arguments);
+void	*observer(void *arguments);
+void	start(t_dinner dinner, t_philo **philos);
+
 /* Utilities */
 int		ft_atoi(const char *nb);
 t_philo	*ph_lstlast(t_philo *philo);
 int		ph_lstsize(t_philo *philo);
-void	ph_lstfree(t_philo *philo);
+void	ph_lstfree(t_philo **philos);
 void	ph_print(t_philo *philo);
-
-
+void	ph_create(t_philo **philos, t_data data);
 unsigned long int	gettimestamp(int unit);
 unsigned long int	getgametime(t_data data, int unit);
 
-// main
-void	*routine(void *arguments);
-void 	*observer(void *arguments);
-void	dinner_create(t_philo **philos, t_data data);
-void	dinner_start(t_dinner dinner, t_philo **philos);
-
-
-
-// debug
-void	print_dinner(t_philo **philo);
-void	print_philo(t_philo *philo);
-void	stat_philo(t_philo *philo);
 #endif
