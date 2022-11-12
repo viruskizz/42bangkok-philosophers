@@ -8,7 +8,9 @@ INCLUDE_DIR	= .
 INCLUDES =	-I$(INCLUDE_DIR) -I$(LIBFT_DIR)
 
 SRC_DIR = srcs
-SRCS = main.c
+SRCS =	main.c \
+		utils/ft_atoi.c \
+		utils/time.c
 
 BUILD_DIR = build
 

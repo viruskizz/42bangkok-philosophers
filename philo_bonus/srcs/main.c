@@ -11,8 +11,51 @@
 /* ************************************************************************** */
 #include "philo_bonus.h"
 
+static int	validate(int argc, char *argv[]);
+static int	setup(int argc, char *argv[], t_data *data);
+
 int	main(int argc, char *argv[])
 {
-	printf("Test\n");
+	// pid_t  pid;
+
+	// pid = fork();
+	// if (pid == 0) 
+	// 	printf("child: %p\n", pid);
+	//  else
+	// 	ParentProcess();
+	t_data		data;
+	t_dinner	dinner;
+
+	if (!!validate(argc, argv))
+		return (0);
+	setup(argc, argv, &data);
+	return (0);
+}
+
+static int	validate(int argc, char *argv[])
+{
+	if (argc < 5)
+		return (printf("%sError: need at least 4 argument%s\n", LRED, RESET));
+	if (ft_atoi(argv[1]) < 1
+		|| ft_atoi(argv[2]) < 1
+		|| ft_atoi(argv[3]) < 1
+		|| ft_atoi(argv[4]) < 1)
+		return (printf("%sError:invalid argument%s\n", LRED, RESET));
+	if (argc > 5 && ft_atoi(argv[5]) <= 0)
+		return (printf("%sError: times cannot less than 0%s\n", LRED, RESET));
+	return (0);
+}
+
+static int	setup(int argc, char *argv[], t_data *data)
+{
+	data->n = ft_atoi(argv[1]);
+	data->ttd = ft_atoi(argv[2]);
+	data->tte = ft_atoi(argv[3]);
+	data->tts = ft_atoi(argv[4]);
+	data->t = gettimestamp(USEC);
+	if (argc > 5 && ft_atoi(argv[5]))
+		data->m = ft_atoi(argv[5]);
+	else
+		data->m = 0;
 	return (0);
 }
