@@ -21,11 +21,13 @@
 
 # define S_SLEEPING	0
 # define S_THINK	1
-# define S_EATING	2
+# define S_FORK		2
+# define S_EATING	3
 # define S_DIED		9
 # define USEC		0
 # define MSEC		1
-
+# define EVEN		0
+# define ODD		1
 /**
  * @brief programe data struct
  * n	number_of_philosophers
@@ -42,31 +44,49 @@ typedef struct s_data
 	int			tts;
 	int			m;
 	int			unlimit;
+	int			is_end;
 	unsigned long int	t;
 }	t_data;
 
 typedef struct s_philo
 {
-	pthread_t		tid;
-	t_data			data;
 	int				idx;
 	int				time;
 	int				status;
+	int				count;
+	t_data			data;
+	pthread_t		tid;
 	pthread_mutex_t	mute;
-	pthread_mutex_t	*nmute;
 	struct s_philo	*next;
 }	t_philo;
 
+typedef struct s_dinner
+{
+	t_data				data;
+	pthread_t			tid;
+	pthread_mutex_t		mute;
+	unsigned long int	time;
+	t_philo				*philos;
+}	t_dinner;
 
 /* Utilities */
-int	ft_atoi(const char *nb);
+int		ft_atoi(const char *nb);
+t_philo	*ph_lstlast(t_philo *philo);
+int		ph_lstsize(t_philo *philo);
+void	ph_lstfree(t_philo *philo);
+void	ph_print(t_philo *philo);
+
+
 unsigned long int	gettimestamp(int unit);
 unsigned long int	getgametime(t_data data, int unit);
 
 // main
 void	*routine(void *arguments);
+void 	*observer(void *arguments);
 void	dinner_create(t_philo **philos, t_data data);
-void	dinner_start(t_philo **philos);
+void	dinner_start(t_dinner dinner, t_philo **philos);
+
+
 
 // debug
 void	print_dinner(t_philo **philo);

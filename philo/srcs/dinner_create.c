@@ -30,7 +30,14 @@ static t_philo	*create_philo(int idx, t_data data)
 	philo->tid = tid;
 	philo->data = data;
 	philo->next = philo;
-	pthread_mutex_init(&philo->mute, NULL);
+	philo->count = 0;
+	philo->status = S_THINK;
+	philo->time = getgametime(philo->data, USEC);
+	if (pthread_mutex_init(&philo->mute, NULL) != 0)
+	{
+		free(philo);
+		return (NULL);
+	}
 	return (philo);
 }
 

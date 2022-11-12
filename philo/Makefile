@@ -10,9 +10,14 @@ INCLUDES =	-I$(INCLUDE_DIR)
 SRC_DIR = srcs
 SRCS =	main.c \
 		routine.c \
+		observer.c \
 		dinner_create.c \
 		dinner_start.c \
 		utils/ft_atoi.c \
+		utils/ph_lstlast.c \
+		utils/ph_lstsize.c \
+		utils/ph_lstfree.c \
+		utils/ph_print.c \
 		utils/time.c \
 		utils/debug.c
 
