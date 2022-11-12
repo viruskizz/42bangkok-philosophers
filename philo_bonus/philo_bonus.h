@@ -3,9 +3,15 @@
 
 # include <stdio.h>
 # include <unistd.h>
-#include  <string.h>
-#include  <sys/types.h>
+# include <string.h>
+# include <stdlib.h>
+# include <signal.h>
+# include <fcntl.h>
+# include <semaphore.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/time.h>
+# include <sys/wait.h>
 
 # define RED		"\033[0;31m"
 # define GREEN		"\033[0;32m"
@@ -35,6 +41,8 @@ typedef struct s_data
 	int					m;
 	int					unlimit;
 	int					is_end;
+	sem_t				*semt;
+	sem_t				*semtp;
 	unsigned long int	t;
 }	t_data;
 
@@ -44,8 +52,6 @@ typedef struct s_philo
 	int				time;
 	int				status;
 	int				count;
-	t_data			data;
-	struct s_philo	*next;
 }	t_philo;
 
 typedef struct s_dinner
@@ -56,8 +62,12 @@ typedef struct s_dinner
 }	t_dinner;
 
 
+/* Main */
+void	routine(t_data data, int idx);
+
 /* Utilities */
 int		ft_atoi(const char *nb);
+void	ph_print(t_data data, t_philo *philo);
 unsigned long int	gettimestamp(int unit);
 unsigned long int	getgametime(t_data data, int unit);
 

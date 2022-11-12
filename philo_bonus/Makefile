@@ -2,14 +2,16 @@ NAME = philo_bonus
 CC = gcc
 # CFLAGS = -Wextra -Wall -Werror
 
-LIBFT_DIR = libft
+LIBS = -lpthread -lrt
 
 INCLUDE_DIR	= .
-INCLUDES =	-I$(INCLUDE_DIR) -I$(LIBFT_DIR)
+INCLUDES =	-I$(INCLUDE_DIR)
 
 SRC_DIR = srcs
 SRCS =	main.c \
+		routine.c \
 		utils/ft_atoi.c \
+		utils/ph_print.c \
 		utils/time.c
 
 BUILD_DIR = build
@@ -19,7 +21,7 @@ OBJS = $(SRCS:%.c=$(BUILD_DIR)/%.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
 
 $(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(@D)

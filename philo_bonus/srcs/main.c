@@ -14,21 +14,71 @@
 static int	validate(int argc, char *argv[]);
 static int	setup(int argc, char *argv[], t_data *data);
 
+// void	routine(t_data data)
+// {
+// 	int	i;
+
+// 	i = 1;
+// 	while (i < 10)
+// 	{
+// 		printf("x %d\n", getpid());
+// 		sem_wait(data.semt);
+// 		printf("Entered..\n");
+// 		//critical section
+// 		usleep(100);
+// 		//signal
+// 		printf("Just Exiting...\n");
+// 		sem_post(data.semt);
+// 		i++;
+// 	}
+// 	exit (1);
+// }
+
 int	main(int argc, char *argv[])
 {
-	// pid_t  pid;
+	t_data	data;
+	pid_t	pid;
+	int		*pids;
 
-	// pid = fork();
-	// if (pid == 0) 
-	// 	printf("child: %p\n", pid);
-	//  else
-	// 	ParentProcess();
-	t_data		data;
-	t_dinner	dinner;
+	int	i;
+	int	n;
+	int	stat;
 
+	i = 0;
+	printf("start\n");
 	if (!!validate(argc, argv))
 		return (0);
 	setup(argc, argv, &data);
+	pids = malloc(sizeof(int) * data.n);
+	while (i < data.n)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			usleep(100);
+			routine(data, i + 1);
+			break;
+		}
+		else
+		{
+			printf("parent%d: %d/%d\n", i, pid, getpid());
+			pids[i] = pid;
+		}
+		printf(">> %d\n", pid);
+		i++;
+	}
+	waitpid(-1, &stat, 0);
+	if (pid != 0 && WEXITSTATUS(stat) == 0)
+	{
+		i = 0;
+		while (i < data.n)
+		{
+			kill(pids[i], SIGKILL);
+			i++;
+		}
+		sem_close(data.semt);
+		sem_close(data.semtp);
+	}
 	return (0);
 }
 
@@ -57,5 +107,9 @@ static int	setup(int argc, char *argv[], t_data *data)
 		data->m = ft_atoi(argv[5]);
 	else
 		data->m = 0;
+	sem_unlink("/araiva");
+	sem_unlink("/araiva_print");
+	data->semt = sem_open("/araiva", O_CREAT, S_IRUSR | S_IWUSR, data->n);
+	data->semtp = sem_open("/araiva_print", O_CREAT, S_IRUSR | S_IWUSR, 1);
 	return (0);
 }
