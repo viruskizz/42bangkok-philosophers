@@ -1,5 +1,5 @@
 NAME = philo_bonus
-CC = gcc
+CC = gcc -g
 # CFLAGS = -Wextra -Wall -Werror
 
 LIBS = -lpthread -lrt
@@ -11,6 +11,8 @@ SRC_DIR = srcs
 SRCS =	main.c \
 		routine.c \
 		utils/ft_atoi.c \
+		utils/ph_activities.c \
+		utils/ph_create.c \
 		utils/ph_print.c \
 		utils/time.c
 

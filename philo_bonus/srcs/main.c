@@ -12,73 +12,36 @@
 #include "philo_bonus.h"
 
 static int	validate(int argc, char *argv[]);
-static int	setup(int argc, char *argv[], t_data *data);
-
-// void	routine(t_data data)
-// {
-// 	int	i;
-
-// 	i = 1;
-// 	while (i < 10)
-// 	{
-// 		printf("x %d\n", getpid());
-// 		sem_wait(data.semt);
-// 		printf("Entered..\n");
-// 		//critical section
-// 		usleep(100);
-// 		//signal
-// 		printf("Just Exiting...\n");
-// 		sem_post(data.semt);
-// 		i++;
-// 	}
-// 	exit (1);
-// }
+static void	setup(int argc, char *argv[], t_data *data);
+static void	dexit(t_data data);
+static void	nexit(t_data data);
 
 int	main(int argc, char *argv[])
 {
 	t_data	data;
 	pid_t	pid;
-	int		*pids;
+	int		i;
 
-	int	i;
-	int	n;
-	int	stat;
-
-	i = 0;
-	printf("start\n");
 	if (!!validate(argc, argv))
 		return (0);
 	setup(argc, argv, &data);
-	pids = malloc(sizeof(int) * data.n);
-	while (i < data.n)
+	i = 0;
+	while (i++ < data.n)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			usleep(100);
-			routine(data, i + 1);
-			break;
+			routine(data, i);
+			break ;
 		}
 		else
-		{
-			printf("parent%d: %d/%d\n", i, pid, getpid());
-			pids[i] = pid;
-		}
-		printf(">> %d\n", pid);
-		i++;
+			data.pids[i - 1] = pid;
 	}
-	waitpid(-1, &stat, 0);
-	if (pid != 0 && WEXITSTATUS(stat) == 0)
-	{
-		i = 0;
-		while (i < data.n)
-		{
-			kill(pids[i], SIGKILL);
-			i++;
-		}
-		sem_close(data.semt);
-		sem_close(data.semtp);
-	}
+	waitpid(-1, &data.pstat, 0);
+	if (pid != 0 && WEXITSTATUS(data.pstat) == 1)
+		dexit(data);
+	waitpid(data.pids[data.n - 1], &data.pstat, 0);
+	nexit(data);
 	return (0);
 }
 
@@ -96,7 +59,7 @@ static int	validate(int argc, char *argv[])
 	return (0);
 }
 
-static int	setup(int argc, char *argv[], t_data *data)
+static void	setup(int argc, char *argv[], t_data *data)
 {
 	data->n = ft_atoi(argv[1]);
 	data->ttd = ft_atoi(argv[2]);
@@ -106,10 +69,35 @@ static int	setup(int argc, char *argv[], t_data *data)
 	if (argc > 5 && ft_atoi(argv[5]))
 		data->m = ft_atoi(argv[5]);
 	else
-		data->m = 0;
+		data->m = -1;
+	data->pids = malloc(sizeof(int) * data->n);
 	sem_unlink("/araiva");
 	sem_unlink("/araiva_print");
 	data->semt = sem_open("/araiva", O_CREAT, S_IRUSR | S_IWUSR, data->n);
 	data->semtp = sem_open("/araiva_print", O_CREAT, S_IRUSR | S_IWUSR, 1);
-	return (0);
+}
+
+static void	dexit(t_data data)
+{
+	int	i;
+
+	printf("exit: %d\n", WEXITSTATUS(data.pstat));
+	i = 0;
+	while (i < data.n)
+	{
+		kill(data.pids[i], SIGKILL);
+		i++;
+	}
+	free(data.pids);
+	sem_close(data.semt);
+	sem_close(data.semtp);
+	exit(1);
+}
+
+static void	nexit(t_data data)
+{
+	free(data.pids);
+	sem_close(data.semt);
+	sem_close(data.semtp);
+	exit(0);
 }

@@ -11,91 +11,64 @@
 /* ************************************************************************** */
 #include "philo_bonus.h"
 
-static void	to_eat(t_data data, t_philo *philo);
-static void	to_sleep(t_data data, t_philo *philo);
-static void	to_think(t_data, t_philo *philo);
-static int	is_live(t_data data, t_philo *philo);
+static void	exit_onlyone(t_philo	philo, t_data data);
+static void	exit_died(t_philo	philo, t_data data);
+static void	handy_fork(t_data data, int act);
 
 void	routine(t_data data, int idx)
 {
 	t_philo	philo;
 
-	philo.idx = idx;
-	philo.count = 0;
-	philo.status = S_THINK;
-	data.t = gettimestamp(USEC);
-	philo.time = getgametime(data, USEC);
+	philo = ph_create(data, idx);
+	exit_onlyone(philo, data);
+	while (1)
+	{
+		handy_fork(data, F_TAKEN);
+		ph_eat(data, &philo);
+		exit_died(philo, data);
+		handy_fork(data, F_RELEASE);
+		ph_sleep(data, &philo);
+		ph_think(data, &philo);
+		if (philo.count == data.m)
+		{
+			philo.status = S_FULL;
+			ph_print(data, &philo);
+			return ;
+		}
+	}
+	exit(0);
+}
+
+static void	exit_onlyone(t_philo philo, t_data data)
+{
 	if (data.n == 1)
 	{
 		philo.status = S_DIED;
 		usleep(data.ttd * 1000);
 		ph_print(data, &philo);
-		exit(0);
+		exit(1);
 	}
-	while (1)
+}
+
+static void	exit_died(t_philo philo, t_data data)
+{
+	if (philo.status == S_DIED)
+	{
+		ph_print(data, &philo);
+		exit(1);
+	}
+}
+
+static void	handy_fork(t_data data, int act)
+{
+	if (act == F_TAKEN)
 	{
 		sem_wait(data.semt);
 		sem_wait(data.semt);
-		to_eat(data, &philo);
-		sem_post(data.semt);
-		sem_post(data.semt);
-		if (philo.status == S_DIED || philo.count == data.m)
-		{
-			ph_print(data, &philo);
-			exit(0);
-		}
-		to_sleep(data, &philo);
-		to_think(data, &philo);
 	}
-	exit(0);
-}
-
-static void	to_eat(t_data data, t_philo *philo)
-{
-	if (philo->status != S_THINK)
-		return ;
-	if (!is_live(data, philo))
-		return ;
-	philo->status = S_FORK;
-	ph_print(data, philo);
-	ph_print(data, philo);
-	philo->status = S_EATING;
-	ph_print(data, philo);
-	usleep(data.tte * 1000);
-	philo->count++;
-}
-
-static void	to_sleep(t_data data, t_philo *philo)
-{
-	if (philo->status != S_EATING)
-		return ;
-	philo->status = S_SLEEPING;
-	philo->time = getgametime(data, USEC);
-	ph_print(data, philo);
-	usleep(data.tts * 1000);
-}
-
-static void	to_think(t_data data, t_philo *philo)
-{
-	if (philo->status != S_SLEEPING)
-		return ;
-	philo->status = S_THINK;
-	ph_print(data, philo);
-	usleep(5);
-}
-
-static int	is_live(t_data data, t_philo *philo)
-{
-	unsigned long int	ttl;
-	unsigned long int	ttd;
-
-	ttl = getgametime(data, USEC) - philo->time;
-	ttd = data.ttd * 1000;
-	if (ttl + data.tte * 1000 > ttd)
+	if (act == F_RELEASE)
 	{
-		philo->status = S_DIED;
-		return (0);
+		sem_post(data.semt);
+		sem_post(data.semt);
 	}
-	else
-		return (1);
 }

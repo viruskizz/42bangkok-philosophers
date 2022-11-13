@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: araiva <tsomsa@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/13 14:27:52 by araiva            #+#    #+#             */
+/*   Updated: 2022/11/13 14:27:54 by araiva           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
@@ -28,7 +40,10 @@
 # define S_THINK	1
 # define S_FORK		2
 # define S_EATING	3
-# define S_DIED		9
+# define S_FULL		9
+# define S_DIED		99
+# define F_TAKEN	1
+# define F_RELEASE	0
 # define USEC		0
 # define MSEC		1
 
@@ -39,8 +54,8 @@ typedef struct s_data
 	int					tte;
 	int					tts;
 	int					m;
-	int					unlimit;
-	int					is_end;
+	int					*pids;
+	int					pstat;
 	sem_t				*semt;
 	sem_t				*semtp;
 	unsigned long int	t;
@@ -54,20 +69,17 @@ typedef struct s_philo
 	int				count;
 }	t_philo;
 
-typedef struct s_dinner
-{
-	t_data				data;
-	unsigned long int	time;
-	t_philo				*philos;
-}	t_dinner;
-
-
 /* Main */
 void	routine(t_data data, int idx);
 
 /* Utilities */
 int		ft_atoi(const char *nb);
 void	ph_print(t_data data, t_philo *philo);
+t_philo	ph_create(t_data data, int idx);
+void	ph_eat(t_data data, t_philo *philo);
+void	ph_sleep(t_data data, t_philo *philo);
+void	ph_think(t_data data, t_philo *philo);
+
 unsigned long int	gettimestamp(int unit);
 unsigned long int	getgametime(t_data data, int unit);
 
