@@ -1,8 +1,12 @@
 NAME = philo_bonus
 CC = gcc -g
-# CFLAGS = -Wextra -Wall -Werror
+CFLAGS = -Wextra -Wall -Werror
 
-LIBS = -lpthread -lrt
+ifeq ($(UNAME), Linux)
+	LIBS = -lpthread -lrt
+else
+	LIBS = -lpthread
+endif
 
 INCLUDE_DIR	= .
 INCLUDES =	-I$(INCLUDE_DIR)
