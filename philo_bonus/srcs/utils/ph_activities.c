@@ -52,11 +52,14 @@ static int	is_live(t_data data, t_philo *philo)
 {
 	unsigned long int	ttl;
 	unsigned long int	ttd;
+	unsigned long int	tte;
 
 	ttl = getgametime(data, USEC) - philo->time;
 	ttd = data.ttd * 1000;
-	if (ttl + data.tte * 1000 > ttd)
+	tte = data.tte * 1000;
+	if (ttl + tte > ttd)
 	{
+		usleep(ttd - ttl);
 		philo->status = S_DIED;
 		return (0);
 	}

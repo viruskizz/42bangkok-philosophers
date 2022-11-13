@@ -81,7 +81,6 @@ static void	dexit(t_data data)
 {
 	int	i;
 
-	printf("exit: %d\n", WEXITSTATUS(data.pstat));
 	i = 0;
 	while (i < data.n)
 	{
