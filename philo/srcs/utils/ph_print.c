@@ -18,16 +18,21 @@ void	ph_print(t_philo *philo)
 
 	time = getgametime(philo->data, MSEC);
 	stat = philo->status;
+	pthread_mutex_lock(&philo->data.pmute);
 	if (stat == S_FORK)
 		printf("%ld %d has taken a fork\n", time, philo->idx);
 	else if (stat == S_EATING)
-		printf("%ld %d is eating\n", time, philo->idx);
+		printf(YELLOW"%ld %d is eating"RESET"\n", time, philo->idx);
 	else if (stat == S_SLEEPING)
-		printf("%s%ld %d is sleeping%s\n", GREEN, time, philo->idx, RESET);
+		printf(CYAN"%ld %d is sleeping"RESET"\n", time, philo->idx);
 	else if (stat == S_THINK)
 		printf("%ld %d is thinking\n", time, philo->idx);
+	else if (stat == S_FULL)
+		printf(GREEN"%ld %d full"RESET"\n", time, philo->idx);
 	else if (stat == S_DIED)
-		printf("%ld %d died\n", time, philo->idx);
+		printf(RED"%ld %d died"RESET"\n", time, philo->idx);
 	else
 		printf("%ld %d ??\n", time, philo->idx);
+	if (stat != S_DIED)
+		pthread_mutex_unlock(&philo->data.pmute);
 }

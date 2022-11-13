@@ -56,7 +56,7 @@ static int	is_full(t_dinner dinner)
 
 	i = 1;
 	philo = dinner.philos;
-	if (dinner.data.m == 0)
+	if (dinner.data.m < 0)
 		return (0);
 	while (i <= dinner.data.n)
 	{

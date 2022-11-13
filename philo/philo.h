@@ -35,7 +35,8 @@
 # define S_THINK	1
 # define S_FORK		2
 # define S_EATING	3
-# define S_DIED		9
+# define S_FULL		9
+# define S_DIED		99
 # define USEC		0
 # define MSEC		1
 # define EVEN		0
@@ -58,6 +59,7 @@ typedef struct s_data
 	int					unlimit;
 	int					is_end;
 	unsigned long int	t;
+	pthread_mutex_t		pmute;
 }	t_data;
 
 typedef struct s_philo
@@ -76,7 +78,6 @@ typedef struct s_dinner
 {
 	t_data				data;
 	pthread_t			tid;
-	pthread_mutex_t		mute;
 	unsigned long int	time;
 	t_philo				*philos;
 }	t_dinner;

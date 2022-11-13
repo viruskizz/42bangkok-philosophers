@@ -15,9 +15,9 @@ static void	ph_delone(t_philo *philo);
 
 void	ph_lstfree(t_philo **philos)
 {
-	t_philo *philo;
-	t_philo *tmp;
-	
+	t_philo	*philo;
+	t_philo	*tmp;
+
 	philo = *philos;
 	while (philo && philo->next != *philos)
 	{

@@ -24,7 +24,10 @@ void	*routine(void *arguments)
 	philo = ((t_philo *) arguments);
 	data = philo->data;
 	if (philo->next == philo)
+	{
+		usleep(data.ttd * 1000);
 		philo->status = S_DIED;
+	}
 	while (1)
 	{
 		pthread_mutex_lock(&philo->mute);
@@ -47,10 +50,16 @@ static void	to_eat(t_philo *philo)
 	pthread_mutex_lock(&philo->next->mute);
 	philo->status = S_FORK;
 	ph_print(philo);
+	ph_print(philo);
 	philo->status = S_EATING;
 	ph_print(philo);
 	usleep(philo->data.tte * 1000);
 	philo->count++;
+	if (philo->count == philo->data.m)
+	{
+		philo->status = S_FULL;
+		ph_print(philo);
+	}
 	pthread_mutex_unlock(&philo->next->mute);
 }
 
@@ -83,6 +92,7 @@ static int	is_live(t_philo *philo)
 	ttd = philo->data.ttd * 1000;
 	if (ttl + philo->data.tte * 1000 > ttd)
 	{
+		usleep(ttd - ttl);
 		philo->status = S_DIED;
 		return (0);
 	}

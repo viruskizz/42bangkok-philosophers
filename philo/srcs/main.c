@@ -29,7 +29,6 @@ int	main(int argc, char *argv[])
 	ph_create(&philos, data);
 	setup_dinner(&dinner, data, philos);
 	start(dinner, &philos);
-	printf("done\n");
 	ph_lstfree(&philos);
 	return (0);
 }
@@ -58,7 +57,8 @@ static int	setup(int argc, char *argv[], t_data *data)
 	if (argc > 5 && ft_atoi(argv[5]))
 		data->m = ft_atoi(argv[5]);
 	else
-		data->m = 0;
+		data->m = -1;
+	pthread_mutex_init(&data->pmute, NULL);
 	return (0);
 }
 
