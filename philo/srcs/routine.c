@@ -25,9 +25,9 @@ void	*routine(void *arguments)
 	{
 		pthread_mutex_lock(&philo->mute);
 		ph_eat(philo);
-		if (philo->data.is_end
-			|| philo->status == S_DIED
-			|| philo->count == data.m)
+		if (philo->data.is_end || philo->status == S_DIED)
+			return (NULL);
+		if (philo->count == data.m)
 		{
 			pthread_mutex_unlock(&philo->mute);
 			return (NULL);
