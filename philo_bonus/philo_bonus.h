@@ -70,17 +70,16 @@ typedef struct s_philo
 }	t_philo;
 
 /* Main */
-void	routine(t_data data, int idx);
+void				routine(t_data data, int idx);
 
 /* Utilities */
-int		ft_atoi(const char *nb);
-void	ph_print(t_data data, t_philo *philo);
-t_philo	ph_create(t_data data, int idx);
-void	ph_eat(t_data data, t_philo *philo);
-void	ph_sleep(t_data data, t_philo *philo);
-void	ph_think(t_data data, t_philo *philo);
-
 unsigned long int	gettimestamp(int unit);
 unsigned long int	getgametime(t_data data, int unit);
+int					ft_atoi(const char *nb);
+void				ph_print(t_data data, t_philo *philo);
+t_philo				ph_create(t_data data, int idx);
+void				ph_eat(t_data data, t_philo *philo);
+void				ph_sleep(t_data data, t_philo *philo);
+void				ph_think(t_data data, t_philo *philo);
 
 #endif

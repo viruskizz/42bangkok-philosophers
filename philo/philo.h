@@ -59,7 +59,6 @@ typedef struct s_data
 	int					unlimit;
 	int					is_end;
 	unsigned long int	t;
-	pthread_mutex_t		pmute;
 }	t_data;
 
 typedef struct s_philo
@@ -83,18 +82,20 @@ typedef struct s_dinner
 }	t_dinner;
 
 /* Main */
-void	*routine(void *arguments);
-void	*observer(void *arguments);
-void	start(t_dinner dinner, t_philo **philos);
+void				*routine(void *arguments);
+void				*observer(void *arguments);
+void				start(t_dinner dinner, t_philo **philos);
 
 /* Utilities */
-int		ft_atoi(const char *nb);
-t_philo	*ph_lstlast(t_philo *philo);
-int		ph_lstsize(t_philo *philo);
-void	ph_lstfree(t_philo **philos);
-void	ph_print(t_philo *philo);
-void	ph_create(t_philo **philos, t_data data);
-unsigned long int	gettimestamp(int unit);
 unsigned long int	getgametime(t_data data, int unit);
+unsigned long int	gettimestamp(int unit);
+int					ft_atoi(const char *nb);
+int					ph_lstsize(t_philo *philo);
+void				ph_lstfree(t_philo **philos);
+void				ph_print(t_philo *philo);
+void				ph_create(t_philo **philos, t_data data);
+void				ph_think(t_philo *philo);
+void				ph_eat(t_philo *philo);
+void				ph_sleep(t_philo *philo);
 
 #endif

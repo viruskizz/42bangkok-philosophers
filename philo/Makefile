@@ -13,6 +13,7 @@ SRCS =	main.c \
 		observer.c \
 		start.c \
 		utils/ft_atoi.c \
+		utils/ph_activities.c \
 		utils/ph_create.c \
 		utils/ph_lstfree.c \
 		utils/ph_print.c \

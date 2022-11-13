@@ -59,7 +59,6 @@ static int	setup(int argc, char *argv[], t_data *data)
 	else
 		data->m = -1;
 	data->is_end = 0;
-	pthread_mutex_init(&data->pmute, NULL);
 	return (0);
 }
 
