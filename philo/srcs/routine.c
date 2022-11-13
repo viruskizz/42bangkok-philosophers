@@ -32,9 +32,11 @@ void	*routine(void *arguments)
 	{
 		pthread_mutex_lock(&philo->mute);
 		to_eat(philo);
-		pthread_mutex_unlock(&philo->mute);
-		if (philo->status == S_DIED || philo->count == data.m)
+		if (philo->data.is_end
+			|| philo->status == S_DIED
+			|| philo->count == data.m)
 			return (NULL);
+		pthread_mutex_unlock(&philo->mute);
 		to_sleep(philo);
 		to_think(philo);
 	}
@@ -93,6 +95,7 @@ static int	is_live(t_philo *philo)
 	if (ttl + philo->data.tte * 1000 > ttd)
 	{
 		usleep(ttd - ttl);
+		philo->data.is_end = 1;
 		philo->status = S_DIED;
 		return (0);
 	}

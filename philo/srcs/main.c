@@ -58,6 +58,7 @@ static int	setup(int argc, char *argv[], t_data *data)
 		data->m = ft_atoi(argv[5]);
 	else
 		data->m = -1;
+	data->is_end = 0;
 	pthread_mutex_init(&data->pmute, NULL);
 	return (0);
 }

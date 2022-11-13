@@ -18,7 +18,6 @@ void	ph_print(t_philo *philo)
 
 	time = getgametime(philo->data, MSEC);
 	stat = philo->status;
-	pthread_mutex_lock(&philo->data.pmute);
 	if (stat == S_FORK)
 		printf("%ld %d has taken a fork\n", time, philo->idx);
 	else if (stat == S_EATING)
@@ -33,6 +32,4 @@ void	ph_print(t_philo *philo)
 		printf(RED"%ld %d died"RESET"\n", time, philo->idx);
 	else
 		printf("%ld %d ??\n", time, philo->idx);
-	if (stat != S_DIED)
-		pthread_mutex_unlock(&philo->data.pmute);
 }
