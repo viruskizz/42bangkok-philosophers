@@ -3,3 +3,7 @@
 .vscode
 build
 philosophers
+philo/philo
+philo/build
+philo_bonus/philo_bonus
+philo_bonus/build
