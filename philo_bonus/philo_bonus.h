@@ -75,6 +75,7 @@ void				routine(t_data data, int idx);
 /* Utilities */
 unsigned long int	gettimestamp(int unit);
 unsigned long int	getgametime(t_data data, int unit);
+void				my_usleep(unsigned long int ttime);
 int					ft_atoi(const char *nb);
 void				ph_print(t_data data, t_philo *philo);
 t_philo				ph_create(t_data data, int idx);

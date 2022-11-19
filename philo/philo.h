@@ -89,6 +89,7 @@ void				start(t_dinner dinner, t_philo **philos);
 /* Utilities */
 unsigned long int	getgametime(t_data data, int unit);
 unsigned long int	gettimestamp(int unit);
+void				my_usleep(unsigned long int ttime);
 int					ft_atoi(const char *nb);
 int					ph_lstsize(t_philo *philo);
 void				ph_lstfree(t_philo **philos);

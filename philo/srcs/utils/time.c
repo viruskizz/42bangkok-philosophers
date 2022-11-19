@@ -37,3 +37,12 @@ unsigned long int	getgametime(t_data data, int unit)
 	else
 		return (curtime / 1000);
 }
+
+void	my_usleep(unsigned long int ttime)
+{
+	unsigned long int	end;
+
+	end = gettimestamp(USEC) + ttime;
+	while (gettimestamp(USEC) < end)
+		;
+}

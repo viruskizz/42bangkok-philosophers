@@ -44,7 +44,7 @@ static void	exit_onlyone(t_philo philo, t_data data)
 	if (data.n == 1)
 	{
 		philo.status = S_DIED;
-		usleep(data.ttd * 1000);
+		my_usleep(data.ttd * 1000);
 		ph_print(data, &philo);
 		exit(1);
 	}

@@ -43,7 +43,7 @@ static void	died_onlyone(t_philo *philo)
 {
 	if (philo->next == philo)
 	{
-		usleep(philo->data.ttd * 1000);
+		my_usleep(philo->data.ttd * 1000);
 		philo->status = S_DIED;
 	}
 }

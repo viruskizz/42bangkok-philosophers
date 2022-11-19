@@ -25,7 +25,7 @@ void	ph_eat(t_data data, t_philo *philo)
 	ph_print(data, philo);
 	philo->status = S_EATING;
 	ph_print(data, philo);
-	usleep(data.tte * 1000);
+	my_usleep(data.tte * 1000);
 	philo->count++;
 }
 
@@ -36,7 +36,7 @@ void	ph_sleep(t_data data, t_philo *philo)
 	philo->status = S_SLEEPING;
 	philo->time = getgametime(data, USEC);
 	ph_print(data, philo);
-	usleep(data.tts * 1000);
+	my_usleep(data.tts * 1000);
 }
 
 void	ph_think(t_data data, t_philo *philo)
@@ -45,7 +45,7 @@ void	ph_think(t_data data, t_philo *philo)
 		return ;
 	philo->status = S_THINK;
 	ph_print(data, philo);
-	usleep(50);
+	my_usleep(50);
 }
 
 static int	is_live(t_data data, t_philo *philo)
@@ -59,7 +59,7 @@ static int	is_live(t_data data, t_philo *philo)
 	tte = data.tte * 1000;
 	if (ttl + tte > ttd)
 	{
-		usleep(ttd - ttl);
+		my_usleep(ttd - ttl);
 		philo->status = S_DIED;
 		return (0);
 	}
